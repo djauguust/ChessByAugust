@@ -4,7 +4,7 @@ import { changeScene } from "./functions/changeScene";
 
 export const Box = ({ position, value = null }) => {
   const url = "/src/assets/images";
-  let c = (position[0] + position[1]) % 2;
+  let c = (position[0] + position[1] + 1) % 2;
   const { raisedPiece, setRaisedPiece, sceneGame, setSceneGame } =
     useContext(DataContext);
 
