@@ -1,12 +1,19 @@
 import React, { useContext } from "react";
 import { DataContext } from "./context/DataContext";
 import { changeScene } from "./functions/changeScene";
+import { getPossibleMoviments } from "./functions/getPossibleMoviments";
 
 export const Box = ({ position, value = null }) => {
   const url = "/src/assets/images";
   let c = (position[0] + position[1] + 1) % 2;
-  const { raisedPiece, setRaisedPiece, sceneGame, setSceneGame } =
-    useContext(DataContext);
+  const {
+    raisedPiece,
+    setRaisedPiece,
+    sceneGame,
+    setSceneGame,
+    possibleMoviments,
+    setpossibleMoviments,
+  } = useContext(DataContext);
 
   const urlImagen = () => {
     return `${url}/${value[0] === "b" ? `black` : `white`}/${value[1]}.png`;
@@ -21,10 +28,12 @@ export const Box = ({ position, value = null }) => {
           position: position,
         };
         setRaisedPiece(piece);
+        setpossibleMoviments(getPossibleMoviments(sceneGame, piece));
       }
     } else {
       setSceneGame(changeScene(sceneGame, raisedPiece, position));
       setRaisedPiece(null);
+      setpossibleMoviments(null);
     }
   };
 
@@ -35,14 +44,42 @@ export const Box = ({ position, value = null }) => {
     return a[0] === b[0] && a[1] === b[1];
   }
 
+  function boxClassName() {
+    let className;
+    if (isEqual(raisedPiece?.position, position)) {
+      className = "btn btn-warning";
+    } else {
+      if (false) {
+      } else {
+        if (c === 1) {
+          className = "btn btn-light";
+        } else {
+          className = "btn btn-dark";
+        }
+      }
+    }
+    return className;
+  }
+  /* if (possibleMoviments && possibleMoviments != []) {
+    console.log(possibleMoviments);
+  } */
+
+  function isAllowed() {
+    let b = false;
+    if (raisedPiece) {
+      possibleMoviments?.map((e) => {
+        if (isEqual(e, position)) {
+          b = true;
+        }
+      });
+    }
+    return b;
+  }
+
   return (
     <button
       type="button"
-      className={
-        isEqual(raisedPiece?.position, position)
-          ? "btn btn-warning"
-          : `${c === 1 ? "btn btn-light" : "btn btn-dark"}`
-      }
+      className={boxClassName()}
       style={{ height: 72, width: 72 }}
       onClick={() => handleClick()}
     >
@@ -56,6 +93,9 @@ export const Box = ({ position, value = null }) => {
             className="d-inline-block align-text-top"
           />
         </a>
+      )}
+      {isAllowed() && value[0] == "e" && (
+        <div className="spinner-grow text-success" role="status"></div>
       )}
     </button>
   );

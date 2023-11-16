@@ -2,7 +2,6 @@ import React from "react";
 import { Box } from "./box";
 
 export const Board = ({ scene = null }) => {
-  console.log(scene)
   return (
     <>
       <div>
