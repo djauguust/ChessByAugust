@@ -266,6 +266,137 @@ export const getPossibleMoviments = (scene, piece) => {
       }
     }
   }
+  //bishop and queen
+  if (piece.piece == "B" || piece.piece == "Q") {
+    if (!top || !start) {
+      let b = true;
+      for (
+        let i = 1;
+        i <= piece.position[0] && i <= piece.position[1] && b;
+        i++
+      ) {
+        if (scene[piece.position[0] - i][piece.position[1] - i][0] == "e") {
+          arrayAllowedPositions = [
+            ...arrayAllowedPositions,
+            [
+              parseInt(`${piece.position[0] - i}`),
+              parseInt(`${piece.position[1] - i}`),
+            ],
+          ];
+        } else {
+          if (
+            scene[piece.position[0] - i][piece.position[1] - i][0] !=
+            piece.color
+          ) {
+            arrayAllowedPositions = [
+              ...arrayAllowedPositions,
+              [
+                parseInt(`${piece.position[0] - i}`),
+                parseInt(`${piece.position[1] - i}`),
+              ],
+            ];
+          }
+          b = false;
+        }
+      }
+    }
+    if (!end || !bottom) {
+      let b = true;
+      for (
+        let i = 1;
+        i < 8 - piece.position[0] && i < 8 - piece.position[1] && b;
+        i++
+      ) {
+        if (scene[piece.position[0] + i][piece.position[1] + i][0] == "e") {
+          arrayAllowedPositions = [
+            ...arrayAllowedPositions,
+            [
+              parseInt(`${piece.position[0] + i}`),
+              parseInt(`${piece.position[1] + i}`),
+            ],
+          ];
+        } else {
+          if (
+            scene[piece.position[0] + i][piece.position[1] + i][0] !=
+            piece.color
+          ) {
+            arrayAllowedPositions = [
+              ...arrayAllowedPositions,
+              [
+                parseInt(`${piece.position[0] + i}`),
+                parseInt(`${piece.position[1] + i}`),
+              ],
+            ];
+          }
+          b = false;
+        }
+      }
+    }
+    if (!top || !end) {
+      let b = true;
+      for (
+        let i = 1;
+        i <= piece.position[0] && i < 8 - piece.position[1] && b;
+        i++
+      ) {
+        if (scene[piece.position[0] - i][piece.position[1] + i][0] == "e") {
+          arrayAllowedPositions = [
+            ...arrayAllowedPositions,
+            [
+              parseInt(`${piece.position[0] - i}`),
+              parseInt(`${piece.position[1] + i}`),
+            ],
+          ];
+        } else {
+          if (
+            scene[piece.position[0] - i][piece.position[1] + i][0] !=
+            piece.color
+          ) {
+            arrayAllowedPositions = [
+              ...arrayAllowedPositions,
+              [
+                parseInt(`${piece.position[0] - i}`),
+                parseInt(`${piece.position[1] + i}`),
+              ],
+            ];
+          }
+          b = false;
+        }
+      }
+    }
+    if (!bottom || !start) {
+      let b = true;
+      for (
+        let i = 1;
+        i <= piece.position[1] && i < 8 - piece.position[0] && b;
+        i++
+      ) {
+        if (scene[piece.position[0] + i][piece.position[1] - i][0] == "e") {
+          arrayAllowedPositions = [
+            ...arrayAllowedPositions,
+            [
+              parseInt(`${piece.position[0] + i}`),
+              parseInt(`${piece.position[1] - i}`),
+            ],
+          ];
+        } else {
+          if (
+            scene[piece.position[0] + i][piece.position[1] - i][0] !=
+            piece.color
+          ) {
+            arrayAllowedPositions = [
+              ...arrayAllowedPositions,
+              [
+                parseInt(`${piece.position[0] + i}`),
+                parseInt(`${piece.position[1] - i}`),
+              ],
+            ];
+          }
+          b = false;
+        }
+      }
+    }
+  }
   console.log(arrayAllowedPositions);
   return arrayAllowedPositions;
 };
