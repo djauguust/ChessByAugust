@@ -11,10 +11,10 @@ export const getPossibleMoviments = (scene, piece) => {
   if (piece.position[0] == 7) {
     bottom = true;
   }
-  if (piece.position[0] == 0) {
+  if (piece.position[1] == 0) {
     start = true;
   }
-  if (piece.position[0] == 7) {
+  if (piece.position[1] == 7) {
     end = true;
   }
 
@@ -134,7 +134,7 @@ export const getPossibleMoviments = (scene, piece) => {
       }
     }
   }
-  // king
+  // kings
   if (piece.piece == "K") {
     let array = [
       [piece.position[0] - 1, piece.position[1] - 1],
@@ -154,6 +154,117 @@ export const getPossibleMoviments = (scene, piece) => {
         e[1] < 8 &&
         scene[e[0]][e[1]][0] != piece.color
     );
+  }
+  //tower and queen
+  if (piece.piece == "T" || piece.piece == "Q") {
+    if (!top) {
+      let b = true;
+      for (let i = 1; i <= piece.position[0] && b; i++) {
+        if (scene[piece.position[0] - i][piece.position[1]][0] == "e") {
+          arrayAllowedPositions = [
+            ...arrayAllowedPositions,
+            [
+              parseInt(`${piece.position[0] - i}`),
+              parseInt(`${piece.position[1]}`),
+            ],
+          ];
+        } else {
+          if (
+            scene[piece.position[0] - i][piece.position[1]][0] != piece.color
+          ) {
+            arrayAllowedPositions = [
+              ...arrayAllowedPositions,
+              [
+                parseInt(`${piece.position[0] - i}`),
+                parseInt(`${piece.position[1]}`),
+              ],
+            ];
+          }
+          b = false;
+        }
+      }
+    }
+    if (!bottom) {
+      let b = true;
+      for (let i = 1; i < 8 - piece.position[0] && b; i++) {
+        if (scene[piece.position[0] + i][piece.position[1]][0] == "e") {
+          arrayAllowedPositions = [
+            ...arrayAllowedPositions,
+            [
+              parseInt(`${piece.position[0] + i}`),
+              parseInt(`${piece.position[1]}`),
+            ],
+          ];
+        } else {
+          if (
+            scene[piece.position[0] + i][piece.position[1]][0] != piece.color
+          ) {
+            arrayAllowedPositions = [
+              ...arrayAllowedPositions,
+              [
+                parseInt(`${piece.position[0] + i}`),
+                parseInt(`${piece.position[1]}`),
+              ],
+            ];
+          }
+          b = false;
+        }
+      }
+    }
+    if (!start) {
+      let b = true;
+      for (let i = 1; i <= piece.position[1] && b; i++) {
+        if (scene[piece.position[0]][piece.position[1] - i][0] == "e") {
+          arrayAllowedPositions = [
+            ...arrayAllowedPositions,
+            [
+              parseInt(`${piece.position[0]}`),
+              parseInt(`${piece.position[1] - i}`),
+            ],
+          ];
+        } else {
+          if (
+            scene[piece.position[0]][piece.position[1] - i][0] != piece.color
+          ) {
+            arrayAllowedPositions = [
+              ...arrayAllowedPositions,
+              [
+                parseInt(`${piece.position[0]}`),
+                parseInt(`${piece.position[1] - i}`),
+              ],
+            ];
+          }
+          b = false;
+        }
+      }
+    }
+    if (!end) {
+      let b = true;
+      for (let i = 1; i < 8 - piece.position[1] && b; i++) {
+        if (scene[piece.position[0]][piece.position[1] + i][0] == "e") {
+          arrayAllowedPositions = [
+            ...arrayAllowedPositions,
+            [
+              parseInt(`${piece.position[0]}`),
+              parseInt(`${piece.position[1] + i}`),
+            ],
+          ];
+        } else {
+          if (
+            scene[piece.position[0]][piece.position[1] + i][0] != piece.color
+          ) {
+            arrayAllowedPositions = [
+              ...arrayAllowedPositions,
+              [
+                parseInt(`${piece.position[0]}`),
+                parseInt(`${piece.position[1] + i}`),
+              ],
+            ];
+          }
+          b = false;
+        }
+      }
+    }
   }
   console.log(arrayAllowedPositions);
   return arrayAllowedPositions;

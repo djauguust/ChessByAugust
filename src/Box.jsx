@@ -55,7 +55,7 @@ export const Box = ({ position, value = null }) => {
         if (c === 1) {
           className = "btn btn-light";
         } else {
-          className = "btn btn-dark";
+          className = "btn btn-secondary";
         }
       }
     }
