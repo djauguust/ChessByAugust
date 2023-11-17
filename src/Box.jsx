@@ -49,7 +49,8 @@ export const Box = ({ position, value = null }) => {
     if (isEqual(raisedPiece?.position, position)) {
       className = "btn btn-warning";
     } else {
-      if (false) {
+      if (raisedPiece && isAllowed() && value[0] != "e") {
+        className = "btn btn-danger";
       } else {
         if (c === 1) {
           className = "btn btn-light";
@@ -95,7 +96,7 @@ export const Box = ({ position, value = null }) => {
         </a>
       )}
       {isAllowed() && value[0] == "e" && (
-        <div className="spinner-grow text-success" role="status"></div>
+        <div className="spinner-grow text-warning" role="status"></div>
       )}
     </button>
   );

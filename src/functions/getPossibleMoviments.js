@@ -26,6 +26,26 @@ export const getPossibleMoviments = (scene, piece) => {
           ];
         }
       }
+      //eat right
+      if (scene[piece.position[0] - 1][piece.position[1] + 1][0] == "b") {
+        arrayAllowedPositions = [
+          ...arrayAllowedPositions,
+          [
+            parseInt(`${piece.position[0] - 1}`),
+            parseInt(`${piece.position[1] + 1}`),
+          ],
+        ];
+      }
+      //eat left
+      if (scene[piece.position[0] - 1][piece.position[1] - 1][0] == "b") {
+        arrayAllowedPositions = [
+          ...arrayAllowedPositions,
+          [
+            parseInt(`${piece.position[0] - 1}`),
+            parseInt(`${piece.position[1] - 1}`),
+          ],
+        ];
+      }
     }
     //pawn: black
     if (piece.color == "b") {
@@ -51,6 +71,26 @@ export const getPossibleMoviments = (scene, piece) => {
             ],
           ];
         }
+      }
+      //eat right
+      if (scene[piece.position[0] + 1][piece.position[1] + 1][0] == "w") {
+        arrayAllowedPositions = [
+          ...arrayAllowedPositions,
+          [
+            parseInt(`${piece.position[0] + 1}`),
+            parseInt(`${piece.position[1] + 1}`),
+          ],
+        ];
+      }
+      //eat left
+      if (scene[piece.position[0] + 1][piece.position[1] - 1][0] == "w") {
+        arrayAllowedPositions = [
+          ...arrayAllowedPositions,
+          [
+            parseInt(`${piece.position[0] + 1}`),
+            parseInt(`${piece.position[1] - 1}`),
+          ],
+        ];
       }
     }
   }
