@@ -397,6 +397,27 @@ export const getPossibleMoviments = (scene, piece) => {
       }
     }
   }
+  //Knight
+  if (piece.piece == "N") {
+    let array = [
+      [piece.position[0] - 1, piece.position[1] - 2],
+      [piece.position[0] - 2, piece.position[1] - 1],
+      [piece.position[0] - 2, piece.position[1] + 1],
+      [piece.position[0] - 1, piece.position[1] + 2],
+      [piece.position[0] + 2, piece.position[1] + 1],
+      [piece.position[0] + 2, piece.position[1] - 1],
+      [piece.position[0] + 1, piece.position[1] + 2],
+      [piece.position[0] + 1, piece.position[1] - 2],
+    ];
+    arrayAllowedPositions = array.filter(
+      (e) =>
+        e[0] > -1 &&
+        e[1] > -1 &&
+        e[0] < 8 &&
+        e[1] < 8 &&
+        scene[e[0]][e[1]][0] != piece.color
+    );
+  }
   console.log(arrayAllowedPositions);
   return arrayAllowedPositions;
 };
