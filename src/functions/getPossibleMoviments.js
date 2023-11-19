@@ -1,10 +1,12 @@
+import { allowedForEnPassant } from "./allowedForEnPassant";
 import { boxIsAttacked } from "./boxIsAttacked";
 
 export const getPossibleMoviments = (
   scene,
   piece,
   historyCastling,
-  onlyControl = true
+  onlyControl = true,
+  historyEnPassant
 ) => {
   let arrayAllowedPositions = [];
   let top = false;
@@ -58,7 +60,8 @@ export const getPossibleMoviments = (
       if (
         piece.position[1] != 7 &&
         piece.position[0] != 0 &&
-        scene[piece.position[0] - 1][piece.position[1] + 1][0] == "b"
+        (scene[piece.position[0] - 1][piece.position[1] + 1][0] == "b" ||
+          allowedForEnPassant(piece, historyEnPassant)[1])
       ) {
         arrayAllowedPositions = [
           ...arrayAllowedPositions,
@@ -72,7 +75,8 @@ export const getPossibleMoviments = (
       if (
         piece.position[0] != 0 &&
         piece.position[1] != 0 &&
-        scene[piece.position[0] - 1][piece.position[1] - 1][0] == "b"
+        (scene[piece.position[0] - 1][piece.position[1] - 1][0] == "b" ||
+          allowedForEnPassant(piece, historyEnPassant)[0])
       ) {
         arrayAllowedPositions = [
           ...arrayAllowedPositions,
@@ -115,7 +119,8 @@ export const getPossibleMoviments = (
       if (
         piece.position[0] != 7 &&
         piece.position[1] != 7 &&
-        scene[piece.position[0] + 1][piece.position[1] + 1][0] == "w"
+        (scene[piece.position[0] + 1][piece.position[1] + 1][0] == "w" ||
+          allowedForEnPassant(piece, historyEnPassant)[1])
       ) {
         arrayAllowedPositions = [
           ...arrayAllowedPositions,
@@ -129,7 +134,8 @@ export const getPossibleMoviments = (
       if (
         piece.position[0] != 7 &&
         piece.position[1] != 0 &&
-        scene[piece.position[0] + 1][piece.position[1] - 1][0] == "w"
+        (scene[piece.position[0] + 1][piece.position[1] - 1][0] == "w" ||
+          allowedForEnPassant(piece, historyEnPassant)[0])
       ) {
         arrayAllowedPositions = [
           ...arrayAllowedPositions,
@@ -164,15 +170,25 @@ export const getPossibleMoviments = (
     // castling
     if (onlyControl) {
       if (piece.color == "b") {
-        console.log("es rey negro");
         if (
           historyCastling.kingsideBlack &&
           scene[0][5][0] == "e" &&
           scene[0][6][0] == "e" &&
-          !boxIsAttacked(scene, [0, 5], piece.color, historyCastling) &&
-          !boxIsAttacked(scene, [0, 6], piece.color, historyCastling)
+          !boxIsAttacked(
+            scene,
+            [0, 5],
+            piece.color,
+            historyCastling,
+            historyEnPassant
+          ) &&
+          !boxIsAttacked(
+            scene,
+            [0, 6],
+            piece.color,
+            historyCastling,
+            historyEnPassant
+          )
         ) {
-          console.log("arriba-derecha");
           arrayAllowedPositions = [...arrayAllowedPositions, [0, 6]];
         }
         if (
@@ -184,12 +200,10 @@ export const getPossibleMoviments = (
           !boxIsAttacked(scene, [0, 2], piece.color, historyCastling) &&
           !boxIsAttacked(scene, [0, 3], piece.color, historyCastling)
         ) {
-          console.log("arriba-izquierda");
           arrayAllowedPositions = [...arrayAllowedPositions, [0, 2]];
         }
       }
       if (piece.color == "w") {
-        console.log("es rey blanco");
         if (
           historyCastling.kingsideWhite &&
           scene[7][5][0] == "e" &&
@@ -197,7 +211,6 @@ export const getPossibleMoviments = (
           !boxIsAttacked(scene, [7, 5], piece.color, historyCastling) &&
           !boxIsAttacked(scene, [7, 6], piece.color, historyCastling)
         ) {
-          console.log("abajo-derecha");
           arrayAllowedPositions = [...arrayAllowedPositions, [7, 6]];
         }
         if (
@@ -209,7 +222,6 @@ export const getPossibleMoviments = (
           !boxIsAttacked(scene, [7, 2], piece.color, historyCastling) &&
           !boxIsAttacked(scene, [7, 3], piece.color, historyCastling)
         ) {
-          console.log("abajo-izquierda");
           arrayAllowedPositions = [...arrayAllowedPositions, [7, 2]];
         }
       }

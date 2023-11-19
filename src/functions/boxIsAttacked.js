@@ -1,6 +1,12 @@
 import { getPossibleMoviments } from "./getPossibleMoviments";
 
-export const boxIsAttacked = (scene, box, color, historyCastling) => {
+export const boxIsAttacked = (
+  scene,
+  box,
+  color,
+  historyCastling,
+  historyEnPassant
+) => {
   let b = false;
   let array = [];
   let piece;
@@ -14,7 +20,13 @@ export const boxIsAttacked = (scene, box, color, historyCastling) => {
           position: [i, j],
         };
 
-        array = getPossibleMoviments(scene, piece, historyCastling, false);
+        array = getPossibleMoviments(
+          scene,
+          piece,
+          historyCastling,
+          false,
+          historyEnPassant
+        );
 
         let array2 = array.filter((e) => e[0] === box[0] && e[1] === box[1]);
         if (array2.length != 0) {

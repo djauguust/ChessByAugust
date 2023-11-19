@@ -14,6 +14,10 @@ export const Game = () => {
     kingsideWhite: true,
     queensideWhite: true,
   });
+  const [historyEnPassant, setHistoryEnPassant] = useState({
+    black: [false, false, false, false, false, false, false, false],
+    white: [false, false, false, false, false, false, false, false],
+  });
   const dataMain = {
     raisedPiece,
     setRaisedPiece,
@@ -23,6 +27,8 @@ export const Game = () => {
     setpossibleMoviments,
     historyCastling,
     setHistoryCastling,
+    historyEnPassant,
+    setHistoryEnPassant,
   };
 
   return (

@@ -15,6 +15,8 @@ export const Box = ({ position, value = null }) => {
     setpossibleMoviments,
     historyCastling,
     setHistoryCastling,
+    historyEnPassant,
+    setHistoryEnPassant,
   } = useContext(DataContext);
 
   const urlImagen = () => {
@@ -31,11 +33,20 @@ export const Box = ({ position, value = null }) => {
         };
         setRaisedPiece(piece);
         setpossibleMoviments(
-          getPossibleMoviments(sceneGame, piece, historyCastling)
+          getPossibleMoviments(
+            sceneGame,
+            piece,
+            historyCastling,
+            true,
+            historyEnPassant
+          )
         );
       }
     } else {
       setSceneGame(changeScene(sceneGame, raisedPiece, position));
+      if (!isEqual(raisedPiece.position, position)) {
+        enPassant();
+      }
       castling(raisedPiece, historyCastling);
       setRaisedPiece(null);
       setpossibleMoviments(null);
@@ -136,6 +147,41 @@ export const Box = ({ position, value = null }) => {
       setHistoryCastling(aux);
     }
     return;
+  }
+
+  function enPassant() {
+    let arrayFalse = [false, false, false, false, false, false, false, false];
+    let b = true;
+    if (raisedPiece.piece == "p") {
+      if (raisedPiece.color == "w") {
+        let compare = [raisedPiece.position[0] - 2, raisedPiece.position[1]];
+        if (isEqual(compare, position)) {
+          let falses = [false, false, false, false, false, false, false, false];
+          falses.map((e, index) => {
+            if (index == raisedPiece.position[1]) {
+              falses[index] = true;
+            }
+          });
+          setHistoryEnPassant({ black: arrayFalse, white: falses });
+          b = false;
+        }
+      } else {
+        let compare = [raisedPiece.position[0] + 2, raisedPiece.position[1]];
+        if (isEqual(compare, position)) {
+          let falses = [false, false, false, false, false, false, false, false];
+          falses.map((e, index) => {
+            if (index == raisedPiece.position[1]) {
+              falses[index] = true;
+            }
+          });
+          setHistoryEnPassant({ white: arrayFalse, black: falses });
+          b = false;
+        }
+      }
+    }
+    if (b) {
+      setHistoryEnPassant({ white: arrayFalse, black: arrayFalse });
+    }
   }
 
   return (
