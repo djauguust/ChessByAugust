@@ -8,6 +8,12 @@ export const Game = () => {
   const [raisedPiece, setRaisedPiece] = useState(null);
   const [sceneGame, setSceneGame] = useState(getInitialGame());
   const [possibleMoviments, setpossibleMoviments] = useState(null);
+  const [historyCastling, setHistoryCastling] = useState({
+    kingsideBlack: true,
+    queensideBlack: true,
+    kingsideWhite: true,
+    queensideWhite: true,
+  });
   const dataMain = {
     raisedPiece,
     setRaisedPiece,
@@ -15,6 +21,8 @@ export const Game = () => {
     setSceneGame,
     possibleMoviments,
     setpossibleMoviments,
+    historyCastling,
+    setHistoryCastling,
   };
 
   return (

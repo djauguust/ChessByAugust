@@ -3,14 +3,14 @@ import React from "react";
 export const getInitialGame = () => {
   const board = [
     [
-      ["b", "T"],
+      ["b", "R"],
       ["b", "N"],
       ["b", "B"],
       ["b", "Q"],
       ["b", "K"],
       ["b", "B"],
       ["b", "N"],
-      ["b", "T"],
+      ["b", "R"],
     ],
     [
       ["b", "p"],
@@ -75,14 +75,14 @@ export const getInitialGame = () => {
       ["w", "p"],
     ],
     [
-      ["w", "T"],
+      ["w", "R"],
       ["w", "N"],
       ["w", "B"],
       ["w", "Q"],
       ["w", "K"],
       ["w", "B"],
       ["w", "N"],
-      ["w", "T"],
+      ["w", "R"],
     ],
   ];
   return board;

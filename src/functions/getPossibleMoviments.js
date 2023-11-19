@@ -1,4 +1,11 @@
-export const getPossibleMoviments = (scene, piece) => {
+import { boxIsAttacked } from "./boxIsAttacked";
+
+export const getPossibleMoviments = (
+  scene,
+  piece,
+  historyCastling,
+  onlyControl = true
+) => {
   let arrayAllowedPositions = [];
   let top = false;
   let bottom = false;
@@ -154,9 +161,62 @@ export const getPossibleMoviments = (scene, piece) => {
         e[1] < 8 &&
         scene[e[0]][e[1]][0] != piece.color
     );
+    // castling
+    if (onlyControl) {
+      if (piece.color == "b") {
+        console.log("es rey negro");
+        if (
+          historyCastling.kingsideBlack &&
+          scene[0][5][0] == "e" &&
+          scene[0][6][0] == "e" &&
+          !boxIsAttacked(scene, [0, 5], piece.color, historyCastling) &&
+          !boxIsAttacked(scene, [0, 6], piece.color, historyCastling)
+        ) {
+          console.log("arriba-derecha");
+          arrayAllowedPositions = [...arrayAllowedPositions, [0, 6]];
+        }
+        if (
+          historyCastling.queensideBlack &&
+          scene[0][1][0] == "e" &&
+          scene[0][2][0] == "e" &&
+          scene[0][3][0] == "e" &&
+          !boxIsAttacked(scene, [0, 1], piece.color, historyCastling) &&
+          !boxIsAttacked(scene, [0, 2], piece.color, historyCastling) &&
+          !boxIsAttacked(scene, [0, 3], piece.color, historyCastling)
+        ) {
+          console.log("arriba-izquierda");
+          arrayAllowedPositions = [...arrayAllowedPositions, [0, 2]];
+        }
+      }
+      if (piece.color == "w") {
+        console.log("es rey blanco");
+        if (
+          historyCastling.kingsideWhite &&
+          scene[7][5][0] == "e" &&
+          scene[7][6][0] == "e" &&
+          !boxIsAttacked(scene, [7, 5], piece.color, historyCastling) &&
+          !boxIsAttacked(scene, [7, 6], piece.color, historyCastling)
+        ) {
+          console.log("abajo-derecha");
+          arrayAllowedPositions = [...arrayAllowedPositions, [7, 6]];
+        }
+        if (
+          historyCastling.queensideWhite &&
+          scene[7][1][0] == "e" &&
+          scene[7][2][0] == "e" &&
+          scene[7][3][0] == "e" &&
+          !boxIsAttacked(scene, [7, 1], piece.color, historyCastling) &&
+          !boxIsAttacked(scene, [7, 2], piece.color, historyCastling) &&
+          !boxIsAttacked(scene, [7, 3], piece.color, historyCastling)
+        ) {
+          console.log("abajo-izquierda");
+          arrayAllowedPositions = [...arrayAllowedPositions, [7, 2]];
+        }
+      }
+    }
   }
   //tower and queen
-  if (piece.piece == "T" || piece.piece == "Q") {
+  if (piece.piece == "R" || piece.piece == "Q") {
     if (!top) {
       let b = true;
       for (let i = 1; i <= piece.position[0] && b; i++) {
@@ -418,6 +478,6 @@ export const getPossibleMoviments = (scene, piece) => {
         scene[e[0]][e[1]][0] != piece.color
     );
   }
-  console.log(arrayAllowedPositions);
+
   return arrayAllowedPositions;
 };

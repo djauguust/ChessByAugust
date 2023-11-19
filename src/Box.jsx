@@ -13,6 +13,8 @@ export const Box = ({ position, value = null }) => {
     setSceneGame,
     possibleMoviments,
     setpossibleMoviments,
+    historyCastling,
+    setHistoryCastling,
   } = useContext(DataContext);
 
   const urlImagen = () => {
@@ -21,17 +23,20 @@ export const Box = ({ position, value = null }) => {
 
   const handleClick = () => {
     if (!raisedPiece) {
-      if (value[0] != "e") {
+      if (!isEmpty()) {
         let piece = {
           color: `${value[0]}`,
           piece: `${value[1]}`,
           position: position,
         };
         setRaisedPiece(piece);
-        setpossibleMoviments(getPossibleMoviments(sceneGame, piece));
+        setpossibleMoviments(
+          getPossibleMoviments(sceneGame, piece, historyCastling)
+        );
       }
     } else {
       setSceneGame(changeScene(sceneGame, raisedPiece, position));
+      castling(raisedPiece, historyCastling);
       setRaisedPiece(null);
       setpossibleMoviments(null);
     }
@@ -49,7 +54,7 @@ export const Box = ({ position, value = null }) => {
     if (isEqual(raisedPiece?.position, position)) {
       className = "btn btn-warning";
     } else {
-      if (raisedPiece && isAllowed() && value[0] != "e") {
+      if (raisedPiece && isAllowed() && !isEmpty()) {
         className = "btn btn-danger";
       } else {
         if (c === 1) {
@@ -65,6 +70,10 @@ export const Box = ({ position, value = null }) => {
     console.log(possibleMoviments);
   } */
 
+  function isEmpty() {
+    return value[0] == "e";
+  }
+
   function isAllowed() {
     let b = false;
     if (raisedPiece) {
@@ -77,6 +86,58 @@ export const Box = ({ position, value = null }) => {
     return b;
   }
 
+  function castling(raisedPiece, historyCastling) {
+    let aux;
+    if (!isEqual(raisedPiece.position, position)) {
+      if (raisedPiece.piece == "K" && raisedPiece.color == "w") {
+        aux = {
+          ...historyCastling,
+          kingsideWhite: false,
+          queensideWhite: false,
+        };
+      }
+      if (raisedPiece.piece == "K" && raisedPiece.color == "b") {
+        aux = {
+          ...historyCastling,
+          kingsideBlack: false,
+          queensideBlack: false,
+        };
+      }
+      if (raisedPiece.piece == "R" && raisedPiece.color == "w") {
+        if (raisedPiece.position[1] == 0) {
+          aux = {
+            ...historyCastling,
+            queensideWhite: false,
+          };
+        }
+        if (raisedPiece.position[1] == 7) {
+          aux = {
+            ...historyCastling,
+            kingsideWhite: false,
+          };
+        }
+      }
+      if (raisedPiece.piece == "R" && raisedPiece.color == "b") {
+        if (raisedPiece.position[1] == 0) {
+          aux = {
+            ...historyCastling,
+            queensideBlack: false,
+          };
+        }
+        if (raisedPiece.position[1] == 7) {
+          aux = {
+            ...historyCastling,
+            kingsideBlack: false,
+          };
+        }
+      }
+    }
+    if (aux) {
+      setHistoryCastling(aux);
+    }
+    return;
+  }
+
   return (
     <button
       type="button"
@@ -84,7 +145,7 @@ export const Box = ({ position, value = null }) => {
       style={{ height: 72, width: 72 }}
       onClick={() => handleClick()}
     >
-      {value[0] != "e" && (
+      {!isEmpty() && (
         <a>
           <img
             src={urlImagen()}
@@ -95,7 +156,7 @@ export const Box = ({ position, value = null }) => {
           />
         </a>
       )}
-      {isAllowed() && value[0] == "e" && (
+      {isAllowed() && isEmpty() && (
         <div className="spinner-grow text-warning" role="status"></div>
       )}
     </button>
