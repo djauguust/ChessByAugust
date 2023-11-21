@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DataContext } from "./context/DataContext";
 import { changeScene } from "./functions/changeScene";
 import { getPossibleMoviments } from "./functions/getPossibleMoviments";
+import { Col, Modal, Row } from "react-bootstrap";
 
-export const Box = ({ position, value = null }) => {
+export const Box = ({ position, value }) => {
   const url = "/src/assets/images";
   let c = (position[0] + position[1] + 1) % 2;
   const {
@@ -19,7 +20,7 @@ export const Box = ({ position, value = null }) => {
     setHistoryEnPassant,
   } = useContext(DataContext);
 
-  const urlImagen = () => {
+  const urlImagen = (value) => {
     return `${url}/${value[0] === "b" ? `black` : `white`}/${value[1]}.png`;
   };
 
@@ -44,10 +45,9 @@ export const Box = ({ position, value = null }) => {
       }
     } else {
       setSceneGame(changeScene(sceneGame, raisedPiece, position));
-      if (!isEqual(raisedPiece.position, position)) {
-        enPassant();
-      }
+      enPassant();
       castling(raisedPiece, historyCastling);
+      promotion();
       setRaisedPiece(null);
       setpossibleMoviments(null);
     }
@@ -150,61 +150,190 @@ export const Box = ({ position, value = null }) => {
   }
 
   function enPassant() {
-    let arrayFalse = [false, false, false, false, false, false, false, false];
-    let b = true;
-    if (raisedPiece.piece == "p") {
-      if (raisedPiece.color == "w") {
-        let compare = [raisedPiece.position[0] - 2, raisedPiece.position[1]];
-        if (isEqual(compare, position)) {
-          let falses = [false, false, false, false, false, false, false, false];
-          falses.map((e, index) => {
-            if (index == raisedPiece.position[1]) {
-              falses[index] = true;
-            }
-          });
-          setHistoryEnPassant({ black: arrayFalse, white: falses });
-          b = false;
-        }
-      } else {
-        let compare = [raisedPiece.position[0] + 2, raisedPiece.position[1]];
-        if (isEqual(compare, position)) {
-          let falses = [false, false, false, false, false, false, false, false];
-          falses.map((e, index) => {
-            if (index == raisedPiece.position[1]) {
-              falses[index] = true;
-            }
-          });
-          setHistoryEnPassant({ white: arrayFalse, black: falses });
-          b = false;
+    if (!isEqual(raisedPiece.position, position)) {
+      let arrayFalse = [false, false, false, false, false, false, false, false];
+      let b = true;
+      if (raisedPiece.piece == "p") {
+        if (raisedPiece.color == "w") {
+          let compare = [raisedPiece.position[0] - 2, raisedPiece.position[1]];
+          if (isEqual(compare, position)) {
+            let falses = [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+            ];
+            falses.map((e, index) => {
+              if (index == raisedPiece.position[1]) {
+                falses[index] = true;
+              }
+            });
+            setHistoryEnPassant({ black: arrayFalse, white: falses });
+            b = false;
+          }
+        } else {
+          let compare = [raisedPiece.position[0] + 2, raisedPiece.position[1]];
+          if (isEqual(compare, position)) {
+            let falses = [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+            ];
+            falses.map((e, index) => {
+              if (index == raisedPiece.position[1]) {
+                falses[index] = true;
+              }
+            });
+            setHistoryEnPassant({ white: arrayFalse, black: falses });
+            b = false;
+          }
         }
       }
-    }
-    if (b) {
-      setHistoryEnPassant({ white: arrayFalse, black: arrayFalse });
+      if (b) {
+        setHistoryEnPassant({ white: arrayFalse, black: arrayFalse });
+      }
     }
   }
 
+  const [showModal, setShowModal] = useState(false);
+  function promotion() {
+    if (raisedPiece.piece == "p") {
+      if (
+        (raisedPiece.color == "w" && position[0] == 0) ||
+        (raisedPiece.color == "b" && position[0] == 7)
+      ) {
+        setShowModal(true);
+      }
+    }
+  }
+
+  function promotionPawn(newPiece) {
+    let piece = {
+      color: value[0],
+      piece: newPiece,
+    };
+    setSceneGame(changeScene(sceneGame, piece, position, true));
+    console.log(sceneGame);
+    setShowModal(false);
+  }
+
+  console.log(value);
+
   return (
-    <button
-      type="button"
-      className={boxClassName()}
-      style={{ height: 72, width: 72 }}
-      onClick={() => handleClick()}
-    >
-      {!isEmpty() && (
-        <a>
-          <img
-            src={urlImagen()}
-            alt=""
-            width="50"
-            height="50"
-            className="d-inline-block align-text-top"
-          />
-        </a>
-      )}
-      {isAllowed() && isEmpty() && (
-        <div className="spinner-grow text-warning" role="status"></div>
-      )}
-    </button>
+    <>
+      <button
+        type="button"
+        className={boxClassName()}
+        style={{ height: 72, width: 72 }}
+        onClick={() => handleClick()}
+      >
+        {!isEmpty() && (
+          <a>
+            <img
+              src={urlImagen(value)}
+              alt=""
+              width="50"
+              height="50"
+              className="d-inline-block align-text-top"
+            />
+          </a>
+        )}
+        {isAllowed() && isEmpty() && (
+          <div className="spinner-grow text-warning" role="status"></div>
+        )}
+      </button>
+      {/* <!-- Modal --> */}
+
+      <Modal show={showModal} backdrop="static" keyboard={false}>
+        <Modal.Header>
+          <Modal.Title>Promocione su peón</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="d-inline-block align-text-top">
+          <Row className="px-4">
+            <Col>
+              <button
+                type="button"
+                className="btn btn-success me-2"
+                style={{ height: 72, width: 72 }}
+                onClick={() => promotionPawn("Q")}
+              >
+                <a>
+                  <img
+                    src={urlImagen([value[0], "Q"])}
+                    alt=""
+                    width="50"
+                    height="50"
+                    className="d-inline-block align-text-top"
+                  />
+                </a>
+              </button>
+            </Col>
+            <Col>
+              <button
+                type="button"
+                className="btn btn-success me-2"
+                style={{ height: 72, width: 72 }}
+                onClick={() => promotionPawn("R")}
+              >
+                <a>
+                  <img
+                    src={urlImagen([value[0], "R"])}
+                    alt=""
+                    width="50"
+                    height="50"
+                    className="d-inline-block align-text-top"
+                  />
+                </a>
+              </button>
+            </Col>
+            <Col>
+              <button
+                type="button"
+                className="btn btn-success me-2"
+                style={{ height: 72, width: 72 }}
+                onClick={() => promotionPawn("N")}
+              >
+                <a>
+                  <img
+                    src={urlImagen([value[0], "N"])}
+                    alt=""
+                    width="50"
+                    height="50"
+                    className="d-inline-block align-text-top"
+                  />
+                </a>
+              </button>
+            </Col>
+            <Col>
+              <button
+                type="button"
+                className="btn btn-success me-2"
+                style={{ height: 72, width: 72 }}
+                onClick={() => promotionPawn("B")}
+              >
+                <a>
+                  <img
+                    src={urlImagen([value[0], "B"])}
+                    alt=""
+                    width="50"
+                    height="50"
+                    className="d-inline-block align-text-top"
+                  />
+                </a>
+              </button>
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>
+    </>
   );
 };

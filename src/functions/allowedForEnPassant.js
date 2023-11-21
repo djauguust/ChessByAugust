@@ -16,6 +16,5 @@ export const allowedForEnPassant = (pawn, historyEnPassant) => {
       BoxAllowed[1] = true;
     }
   }
-  console.log(BoxAllowed);
   return BoxAllowed;
 };
