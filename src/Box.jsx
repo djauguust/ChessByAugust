@@ -44,12 +44,15 @@ export const Box = ({ position, value }) => {
         );
       }
     } else {
-      setSceneGame(changeScene(sceneGame, raisedPiece, position));
-      enPassant();
-      castling(raisedPiece, historyCastling);
-      promotion();
-      setRaisedPiece(null);
-      setpossibleMoviments(null);
+      if (promotion()) {
+        setShowModal(true);
+      } else {
+        setSceneGame(changeScene(sceneGame, raisedPiece, position));
+        enPassant();
+        castling(raisedPiece, historyCastling);
+        setRaisedPiece(null);
+        setpossibleMoviments(null);
+      }
     }
   };
 
@@ -83,6 +86,16 @@ export const Box = ({ position, value }) => {
 
   function isEmpty() {
     return value[0] == "e";
+  }
+
+  function oppositeColor(color) {
+    if (color == "w") {
+      return "b";
+    }
+    if (color == "b") {
+      return "w";
+    }
+    return null;
   }
 
   function isAllowed() {
@@ -206,27 +219,29 @@ export const Box = ({ position, value }) => {
 
   const [showModal, setShowModal] = useState(false);
   function promotion() {
+    let b = false;
     if (raisedPiece.piece == "p") {
       if (
         (raisedPiece.color == "w" && position[0] == 0) ||
         (raisedPiece.color == "b" && position[0] == 7)
       ) {
-        setShowModal(true);
+        b = true;
       }
     }
+    return b;
   }
 
-  function promotionPawn(newPiece) {
+  function promotionPawn(newPiece, raisedPiece) {
     let piece = {
-      color: value[0],
+      color: oppositeColor(value[0]),
       piece: newPiece,
+      position: raisedPiece.position,
     };
     setSceneGame(changeScene(sceneGame, piece, position, true));
-    console.log(sceneGame);
     setShowModal(false);
+    setRaisedPiece(null);
+    setpossibleMoviments(null);
   }
-
-  console.log(value);
 
   return (
     <>
@@ -264,11 +279,11 @@ export const Box = ({ position, value }) => {
                 type="button"
                 className="btn btn-success me-2"
                 style={{ height: 72, width: 72 }}
-                onClick={() => promotionPawn("Q")}
+                onClick={() => promotionPawn("Q", raisedPiece)}
               >
                 <a>
                   <img
-                    src={urlImagen([value[0], "Q"])}
+                    src={urlImagen([oppositeColor(value[0]), "Q"])}
                     alt=""
                     width="50"
                     height="50"
@@ -282,11 +297,11 @@ export const Box = ({ position, value }) => {
                 type="button"
                 className="btn btn-success me-2"
                 style={{ height: 72, width: 72 }}
-                onClick={() => promotionPawn("R")}
+                onClick={() => promotionPawn("R", raisedPiece)}
               >
                 <a>
                   <img
-                    src={urlImagen([value[0], "R"])}
+                    src={urlImagen([oppositeColor(value[0]), "R"])}
                     alt=""
                     width="50"
                     height="50"
@@ -300,11 +315,11 @@ export const Box = ({ position, value }) => {
                 type="button"
                 className="btn btn-success me-2"
                 style={{ height: 72, width: 72 }}
-                onClick={() => promotionPawn("N")}
+                onClick={() => promotionPawn("N", raisedPiece)}
               >
                 <a>
                   <img
-                    src={urlImagen([value[0], "N"])}
+                    src={urlImagen([oppositeColor(value[0]), "N"])}
                     alt=""
                     width="50"
                     height="50"
@@ -318,11 +333,11 @@ export const Box = ({ position, value }) => {
                 type="button"
                 className="btn btn-success me-2"
                 style={{ height: 72, width: 72 }}
-                onClick={() => promotionPawn("B")}
+                onClick={() => promotionPawn("B", raisedPiece)}
               >
                 <a>
                   <img
-                    src={urlImagen([value[0], "B"])}
+                    src={urlImagen([oppositeColor(value[0]), "B"])}
                     alt=""
                     width="50"
                     height="50"
