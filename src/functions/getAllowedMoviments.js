@@ -1,5 +1,6 @@
 import { boxIsAttacked } from "./boxIsAttacked";
 import { changeScene } from "./changeScene";
+import { getKingPositionByColor } from "./getKingPositionByColor";
 
 export const getAllowedMoviments = (
   possibleMoviments,
@@ -13,9 +14,8 @@ export const getAllowedMoviments = (
   if (piece.piece == "K") {
     //if the king is in check
     possibleMoviments.map((e) => {
-      console.log(e);
       fictionalScene = [...changeScene(scene, piece, e)];
-      console.log(fictionalScene);
+
       if (
         !boxIsAttacked(
           fictionalScene,
@@ -29,10 +29,23 @@ export const getAllowedMoviments = (
       }
     });
   } else {
-    // if a piece is pinned
-    array = possibleMoviments;
+    // if a piece is pinned or must be pinned
+    possibleMoviments.map((e) => {
+      fictionalScene = [...changeScene(scene, piece, e)];
+
+      if (
+        !boxIsAttacked(
+          fictionalScene,
+          getKingPositionByColor(scene, piece.color),
+          piece.color,
+          historyCastling,
+          historyEnPassant
+        )
+      ) {
+        array = [...array, e];
+      }
+    });
   }
-  console.log(array);
 
   return array;
 };

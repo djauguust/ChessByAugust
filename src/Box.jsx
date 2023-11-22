@@ -4,6 +4,7 @@ import { changeScene } from "./functions/changeScene";
 import { getPossibleMoviments } from "./functions/getPossibleMoviments";
 import { Col, Modal, Row } from "react-bootstrap";
 import { getAllowedMoviments } from "./functions/getAllowedMoviments";
+import { getKingPositionByColor } from "./functions/getKingPositionByColor";
 
 export const Box = ({ position, value }) => {
   const url = "/src/assets/images";
