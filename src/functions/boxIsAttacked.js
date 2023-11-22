@@ -10,7 +10,6 @@ export const boxIsAttacked = (
   let b = false;
   let array = [];
   let piece;
-  console.log("entro");
   for (let i = 0; i < 8; i++) {
     for (let j = 0; j < 8; j++) {
       if (scene[i][j][0] != "e" && scene[i][j][0] != color) {

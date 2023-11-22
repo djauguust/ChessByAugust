@@ -3,6 +3,7 @@ import { DataContext } from "./context/DataContext";
 import { changeScene } from "./functions/changeScene";
 import { getPossibleMoviments } from "./functions/getPossibleMoviments";
 import { Col, Modal, Row } from "react-bootstrap";
+import { getAllowedMoviments } from "./functions/getAllowedMoviments";
 
 export const Box = ({ position, value }) => {
   const url = "/src/assets/images";
@@ -34,11 +35,17 @@ export const Box = ({ position, value }) => {
         };
         setRaisedPiece(piece);
         setpossibleMoviments(
-          getPossibleMoviments(
-            sceneGame,
+          getAllowedMoviments(
+            getPossibleMoviments(
+              sceneGame,
+              piece,
+              historyCastling,
+              true,
+              historyEnPassant
+            ),
             piece,
+            sceneGame,
             historyCastling,
-            true,
             historyEnPassant
           )
         );
@@ -66,6 +73,7 @@ export const Box = ({ position, value }) => {
   function boxClassName() {
     let className;
     if (isEqual(raisedPiece?.position, position)) {
+      // todo, what if is the king attacked
       className = "btn btn-warning";
     } else {
       if (raisedPiece && isAllowed() && !isEmpty()) {
