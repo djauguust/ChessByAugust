@@ -8,7 +8,7 @@ import { getKingPositionByColor } from "./functions/getKingPositionByColor";
 import { boxIsAttacked } from "./functions/boxIsAttacked";
 
 export const Box = ({ position, value }) => {
-  const url = "/src/assets/images";
+  const url = "../../src/assets/images";
   let c = (position[0] + position[1] + 1) % 2;
   const {
     raisedPiece,
