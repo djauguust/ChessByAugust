@@ -30,7 +30,8 @@ export const Game = () => {
     historyEnPassant,
     setHistoryEnPassant,
   };
-
+  console.log(sceneGame);
+  
   return (
     <DataContext.Provider value={dataMain}>
       <Board scene={sceneGame} />;

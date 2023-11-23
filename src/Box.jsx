@@ -5,6 +5,7 @@ import { getPossibleMoviments } from "./functions/getPossibleMoviments";
 import { Col, Modal, Row } from "react-bootstrap";
 import { getAllowedMoviments } from "./functions/getAllowedMoviments";
 import { getKingPositionByColor } from "./functions/getKingPositionByColor";
+import { boxIsAttacked } from "./functions/boxIsAttacked";
 
 export const Box = ({ position, value }) => {
   const url = "/src/assets/images";
@@ -77,7 +78,17 @@ export const Box = ({ position, value }) => {
       // todo, what if is the king attacked
       className = "btn btn-warning";
     } else {
-      if (raisedPiece && isAllowed() && !isEmpty()) {
+      if (
+        (raisedPiece && isAllowed() && !isEmpty()) ||
+        (boxIsAttacked(
+          sceneGame,
+          position,
+          value[0],
+          historyCastling,
+          historyEnPassant
+        ) &&
+          value[1] == "K")
+      ) {
         className = "btn btn-danger";
       } else {
         if (c === 1) {
@@ -242,7 +253,7 @@ export const Box = ({ position, value }) => {
 
   function promotionPawn(newPiece, raisedPiece) {
     let piece = {
-      color: oppositeColor(value[0]),
+      color: raisedPiece.color,
       piece: newPiece,
       position: raisedPiece.position,
     };
