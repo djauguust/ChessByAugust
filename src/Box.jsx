@@ -24,7 +24,10 @@ export const Box = ({ position, value }) => {
   } = useContext(DataContext);
 
   const urlImagen = (value) => {
-    return `${url}/${value[0] === "b" ? `black` : `white`}/${value[1]}.png`;
+    return new URL(
+      `${url}/${value[0] === "b" ? `black` : `white`}/${value[1]}.png`,
+      import.meta.url
+    ).href;
   };
 
   const handleClick = () => {
