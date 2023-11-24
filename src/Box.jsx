@@ -4,10 +4,9 @@ import { changeScene } from "./functions/changeScene";
 import { getPossibleMoviments } from "./functions/getPossibleMoviments";
 import { Col, Modal, Row } from "react-bootstrap";
 import { getAllowedMoviments } from "./functions/getAllowedMoviments";
-import { getKingPositionByColor } from "./functions/getKingPositionByColor";
 import { boxIsAttacked } from "./functions/boxIsAttacked";
 
-export const Box = ({ position, value }) => {
+export const Box = ({ position, value, responsive }) => {
   const url = "../../images";
   let c = (position[0] + position[1] + 1) % 2;
   const {
@@ -266,12 +265,22 @@ export const Box = ({ position, value }) => {
     setpossibleMoviments(null);
   }
 
+  function sizeGame() {
+    let aux = { box: null, piece: null };
+    if (responsive == "sm") {
+      aux = { box: 36, piece: 16 };
+    } else {
+      aux = { box: 72, piece: 50 };
+    }
+    return aux;
+  }
+
   return (
     <>
       <button
         type="button"
-        className={boxClassName()}
-        style={{ height: 72, width: 72 }}
+        className={`${boxClassName()}`}
+        style={{ height: sizeGame().box, width: sizeGame().box }}
         onClick={() => handleClick()}
       >
         {!isEmpty() && (
@@ -279,14 +288,19 @@ export const Box = ({ position, value }) => {
             <img
               src={urlImagen(value)}
               alt=""
-              width="50"
-              height="50"
-              className="d-inline-block align-text-top"
+              width={sizeGame().piece}
+              height={sizeGame().piece}
+              className="d-inline-block align-text"
             />
           </a>
         )}
         {isAllowed() && isEmpty() && (
-          <div className="spinner-grow text-warning" role="status"></div>
+          <div
+            className={`spinner-grow ${
+              responsive == "sm" ? "spinner-grow-sm" : ""
+            } text-warning`}
+            role="status"
+          ></div>
         )}
       </button>
       {/* <!-- Modal --> */}

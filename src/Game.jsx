@@ -31,10 +31,15 @@ export const Game = () => {
     setHistoryEnPassant,
   };
   console.log(sceneGame);
-  
+
   return (
     <DataContext.Provider value={dataMain}>
-      <Board scene={sceneGame} />;
+      <div className="d-none d-md-block">
+        <Board scene={sceneGame} responsive="xl" />;
+      </div>
+      <div className="d-block d-md-none">
+        <Board scene={sceneGame} responsive="sm" />;
+      </div>
     </DataContext.Provider>
   );
 };
