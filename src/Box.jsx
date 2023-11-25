@@ -20,6 +20,8 @@ export const Box = ({ position, value, responsive }) => {
     setHistoryCastling,
     historyEnPassant,
     setHistoryEnPassant,
+    whiteIsNext,
+    setWhiteIsNext,
   } = useContext(DataContext);
 
   const urlImagen = (value) => {
@@ -31,7 +33,7 @@ export const Box = ({ position, value, responsive }) => {
 
   const handleClick = () => {
     if (!raisedPiece) {
-      if (!isEmpty()) {
+      if (!isEmpty() && whiteIsNext == (value[0] == "w")) {
         let piece = {
           color: `${value[0]}`,
           piece: `${value[1]}`,
@@ -63,6 +65,9 @@ export const Box = ({ position, value, responsive }) => {
         castling(raisedPiece, historyCastling);
         setRaisedPiece(null);
         setpossibleMoviments(null);
+        if (!isEqual(raisedPiece.position, position)) {
+          setWhiteIsNext(!whiteIsNext);
+        }
       }
     }
   };
@@ -263,6 +268,7 @@ export const Box = ({ position, value, responsive }) => {
     setShowModal(false);
     setRaisedPiece(null);
     setpossibleMoviments(null);
+    setWhiteIsNext(!whiteIsNext);
   }
 
   function sizeGame() {
