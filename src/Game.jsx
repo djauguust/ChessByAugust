@@ -62,7 +62,6 @@ export const Game = () => {
       setShowModalWin(true);
     }
   }, [sceneGame]);
-  console.log(winner);
 
   return (
     <DataContext.Provider value={dataMain}>

@@ -57,16 +57,18 @@ export const Box = ({ position, value, responsive }) => {
         );
       }
     } else {
-      if (promotion()) {
-        setShowModal(true);
-      } else {
-        setSceneGame(changeScene(sceneGame, raisedPiece, position));
-        enPassant();
-        castling(raisedPiece, historyCastling);
-        setRaisedPiece(null);
-        setpossibleMoviments(null);
-        if (!isEqual(raisedPiece.position, position)) {
-          setWhiteIsNext(!whiteIsNext);
+      if (isAllowed() || isEqual(raisedPiece.position, position)) {
+        if (promotion()) {
+          setShowModal(true);
+        } else {
+          setSceneGame(changeScene(sceneGame, raisedPiece, position));
+          enPassant();
+          castling(raisedPiece, historyCastling);
+          setRaisedPiece(null);
+          setpossibleMoviments(null);
+          if (!isEqual(raisedPiece.position, position)) {
+            setWhiteIsNext(!whiteIsNext);
+          }
         }
       }
     }
