@@ -32,7 +32,7 @@ export const checkMate = (color, scene, historyCastling, historyEnPassant) => {
             historyEnPassant
           );
           if (array.length != 0) {
-            false;
+            checkMate = false;
           }
         }
       }
