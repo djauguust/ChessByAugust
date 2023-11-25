@@ -81,6 +81,14 @@ export const Game = () => {
             </Modal.Header>
 
             <Modal.Body>
+              <p>
+                Faltan cosas: - El rey tiene permitido enrocar pero no enroca -
+                el peón atacante tiene permitido comer al paso pero no come al
+                paso.
+              </p>
+              <p>A agregar: - Cronómetro - Piezas comidas afueras</p>
+              <p>¿Sugerencias? email: dj.august.brito@gmail.com</p>
+
               <p>¿Listos para iniciar una partida?</p>
             </Modal.Body>
 
