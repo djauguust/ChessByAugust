@@ -57,7 +57,7 @@ export const Box = ({ position, value, responsive }) => {
         );
       }
     } else {
-      if (/* isAllowed() || isEqual(raisedPiece.position, position) */true) {
+      if (isAllowed() || isEqual(raisedPiece.position, position)) {
         if (promotion()) {
           setShowModal(true);
         } else {
