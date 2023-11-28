@@ -84,7 +84,8 @@ export const Game = () => {
               <p>
                 Faltan cosas: - El rey tiene permitido enrocar pero no enroca -
                 el peón atacante tiene permitido comer al paso pero no come al
-                paso.
+                paso. - Si se come una torre que tenía permitido enrocar, el rey
+                se demora un turno en saber que no puede hacerlo ya.
               </p>
               <p>A agregar: - Cronómetro - Piezas comidas afueras</p>
               <p>¿Sugerencias? email: dj.august.brito@gmail.com</p>

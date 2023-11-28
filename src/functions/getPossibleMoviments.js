@@ -196,9 +196,27 @@ export const getPossibleMoviments = (
           scene[0][1][0] == "e" &&
           scene[0][2][0] == "e" &&
           scene[0][3][0] == "e" &&
-          !boxIsAttacked(scene, [0, 1], piece.color, historyCastling) &&
-          !boxIsAttacked(scene, [0, 2], piece.color, historyCastling) &&
-          !boxIsAttacked(scene, [0, 3], piece.color, historyCastling)
+          !boxIsAttacked(
+            scene,
+            [0, 1],
+            piece.color,
+            historyCastling,
+            historyEnPassant
+          ) &&
+          !boxIsAttacked(
+            scene,
+            [0, 2],
+            piece.color,
+            historyCastling,
+            historyEnPassant
+          ) &&
+          !boxIsAttacked(
+            scene,
+            [0, 3],
+            piece.color,
+            historyCastling,
+            historyEnPassant
+          )
         ) {
           arrayAllowedPositions = [...arrayAllowedPositions, [0, 2]];
         }
@@ -208,8 +226,20 @@ export const getPossibleMoviments = (
           historyCastling.kingsideWhite &&
           scene[7][5][0] == "e" &&
           scene[7][6][0] == "e" &&
-          !boxIsAttacked(scene, [7, 5], piece.color, historyCastling) &&
-          !boxIsAttacked(scene, [7, 6], piece.color, historyCastling)
+          !boxIsAttacked(
+            scene,
+            [7, 5],
+            piece.color,
+            historyCastling,
+            historyEnPassant
+          ) &&
+          !boxIsAttacked(
+            scene,
+            [7, 6],
+            piece.color,
+            historyCastling,
+            historyEnPassant
+          )
         ) {
           arrayAllowedPositions = [...arrayAllowedPositions, [7, 6]];
         }
@@ -218,9 +248,27 @@ export const getPossibleMoviments = (
           scene[7][1][0] == "e" &&
           scene[7][2][0] == "e" &&
           scene[7][3][0] == "e" &&
-          !boxIsAttacked(scene, [7, 1], piece.color, historyCastling) &&
-          !boxIsAttacked(scene, [7, 2], piece.color, historyCastling) &&
-          !boxIsAttacked(scene, [7, 3], piece.color, historyCastling)
+          !boxIsAttacked(
+            scene,
+            [7, 1],
+            piece.color,
+            historyCastling,
+            historyEnPassant
+          ) &&
+          !boxIsAttacked(
+            scene,
+            [7, 2],
+            piece.color,
+            historyCastling,
+            historyEnPassant
+          ) &&
+          !boxIsAttacked(
+            scene,
+            [7, 3],
+            piece.color,
+            historyCastling,
+            historyEnPassant
+          )
         ) {
           arrayAllowedPositions = [...arrayAllowedPositions, [7, 2]];
         }

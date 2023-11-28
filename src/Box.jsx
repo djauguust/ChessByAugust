@@ -57,7 +57,7 @@ export const Box = ({ position, value, responsive }) => {
         );
       }
     } else {
-      if (isAllowed() || isEqual(raisedPiece.position, position)) {
+      if (/* isAllowed() || isEqual(raisedPiece.position, position) */true) {
         if (promotion()) {
           setShowModal(true);
         } else {
@@ -184,6 +184,30 @@ export const Box = ({ position, value, responsive }) => {
           };
         }
       }
+      if (sceneGame[0][0][0] != "b") {
+        aux = {
+          ...historyCastling,
+          queensideBlack: false,
+        };
+      }
+      if (sceneGame[0][7][0] != "b") {
+        aux = {
+          ...historyCastling,
+          kingsideBlack: false,
+        };
+      }
+      if (sceneGame[7][0][0] != "w") {
+        aux = {
+          ...historyCastling,
+          queensideWhite: false,
+        };
+      }
+      if (sceneGame[7][7][0] != "w") {
+        aux = {
+          ...historyCastling,
+          kingsideWhite: false,
+        };
+      }
     }
     if (aux) {
       setHistoryCastling(aux);
@@ -275,8 +299,9 @@ export const Box = ({ position, value, responsive }) => {
 
   function sizeGame() {
     let aux = { box: null, piece: null };
+    let widthBox = window.innerWidth / 8 - 3;
     if (responsive == "sm") {
-      aux = { box: 36, piece: 16 };
+      aux = { box: widthBox, piece: widthBox / 1.44 };
     } else {
       aux = { box: 72, piece: 50 };
     }
