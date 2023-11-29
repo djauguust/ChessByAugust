@@ -82,8 +82,9 @@ export const Game = () => {
 
             <Modal.Body>
               <p>
-                Faltan cosas: - Si se come una torre que tenía permitido enrocar, el rey
-                se demora un turno en saber que no puede hacerlo ya.
+                Faltan cosas: - Si se come una torre que tenía permitido
+                enrocar, el rey se demora un turno en saber que no puede hacerlo
+                ya. - El juego no reconoce tablas por rey ahogado
               </p>
               <p>A agregar: - Cronómetro - Piezas comidas afueras</p>
               <p>¿Sugerencias? email: dj.august.brito@gmail.com</p>
