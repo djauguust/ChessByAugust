@@ -84,7 +84,7 @@ export const Game = () => {
               <p>
                 Faltan cosas: - Si se come una torre que tenía permitido
                 enrocar, el rey se demora un turno en saber que no puede hacerlo
-                ya. - El juego no reconoce tablas por rey ahogado
+                ya. - El juego no reconoce ninguna tablas no acordadas.
               </p>
               <p>A agregar: - Cronómetro - Piezas comidas afueras</p>
               <p>¿Sugerencias? email: dj.august.brito@gmail.com</p>
